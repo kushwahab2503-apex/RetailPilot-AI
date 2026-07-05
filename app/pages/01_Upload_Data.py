@@ -1,10 +1,8 @@
 import streamlit as st
 import pandas as pd
-import sys
-import os
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from components.layout import page_header, dataset_status
+from app.components.layout import page_header, dataset_status
+from backend.data_loader import load_csv
+from backend.validator import validate_dataset
 
 dataset_status()
 page_header("Upload Data", "Upload your business dataset to begin analysis.")
@@ -12,17 +10,37 @@ page_header("Upload Data", "Upload your business dataset to begin analysis.")
 uploaded_file = st.file_uploader("Upload CSV Dataset", type=["csv"])
 
 if uploaded_file:
-    # Safely try reading some basic metadata if valid
-    try:
-        df_preview = pd.read_csv(uploaded_file, nrows=5)
-        st.info(f"File '{uploaded_file.name}' received.")
+    load_result = load_csv(uploaded_file)
+    
+    if not load_result["success"]:
+        st.error(f"Failed to load file: {load_result['error_message']}")
+    else:
+        df = load_result["dataframe"]
+        st.success(f"File '{load_result['filename']}' received successfully.")
+        
+        st.write("File metadata:")
+        c1, c2 = st.columns(2)
+        c1.metric("Rows", load_result["row_count"])
+        c2.metric("Columns", load_result["column_count"])
+        
         st.write("File preview:")
-        st.dataframe(df_preview)
+        st.dataframe(df.head(5))
         
-        st.button("Begin Validation Process", type="primary", disabled=True, help="Processing pipeline is under construction.")
-    except Exception as e:
-        st.error(f"Error reading file: {e}")
-        
+        if st.button("Validate Dataset", type="primary"):
+            with st.spinner("Running dataset validation pipeline..."):
+                val_result = validate_dataset(df)
+                
+                st.session_state["dataset_loaded"] = True
+                st.session_state["demo_mode"] = False
+                st.session_state["raw_df"] = df
+                st.session_state["load_metadata"] = load_result
+                st.session_state["validation_results"] = val_result
+                
+                if val_result["is_valid"]:
+                    st.success("Validation complete! Navigate to Data Quality to review the results.")
+                else:
+                    st.error("Validation failed! Navigate to Data Quality to review critical errors.")
+
 st.divider()
 st.subheader("Dataset Schema Requirements")
 st.markdown("""

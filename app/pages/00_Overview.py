@@ -1,5 +1,5 @@
 import streamlit as st
-from components.layout import page_header, dataset_status
+from app.components.layout import page_header, dataset_status
 
 dataset_status()
 

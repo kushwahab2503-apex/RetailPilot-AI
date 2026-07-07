@@ -17,6 +17,22 @@ else:
     st.success("Platform ready. Navigate via the sidebar to continue analysis.")
     st.write("---")
     
+    st.subheader("Dataset Pipeline Status")
+    status_col1, status_col2, status_col3 = st.columns(3)
+    status_col1.success("✅ Uploaded")
+    
+    if st.session_state.get("validation_results"):
+        status_col2.success("✅ Validated")
+    else:
+        status_col2.info("⏳ Pending Validation")
+        
+    if st.session_state.get("cleaned_df") is not None:
+        status_col3.success("✅ Cleaned")
+    else:
+        status_col3.info("⏳ Pending Cleaning")
+        
+    st.write("---")
+    
     st.subheader("High-Level KPIs")
     col1, col2, col3, col4 = st.columns(4)
     with col1:

@@ -71,3 +71,9 @@ else:
     - **Customer Analytics**: {'✅' if avail.get('customer_analytics') else '❌'}
     - **Profit Analytics**: {'✅' if avail.get('profit_analytics') else '❌'}
     """)
+    
+    st.divider()
+    if st.session_state.get("cleaned_df") is not None:
+        st.success("✅ A cleaned dataset is currently active in the workspace.")
+    elif val_result["is_valid"]:
+        st.info("💡 Cleaning tools are now available for this dataset on the Data Cleaning page.")

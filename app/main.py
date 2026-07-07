@@ -32,17 +32,18 @@ pg = st.navigation({
         st.Page("pages/00_Overview.py", title="Overview"),
         st.Page("pages/01_Upload_Data.py", title="Upload Data"),
         st.Page("pages/02_Data_Quality.py", title="Data Quality"),
+        st.Page("pages/03_Data_Cleaning.py", title="Data Cleaning"),
     ],
     "INTELLIGENCE": [
-        st.Page("pages/03_Analytics.py", title="Analytics"),
-        st.Page("pages/04_Products.py", title="Products"),
-        st.Page("pages/05_Customers.py", title="Customers"),
-        st.Page("pages/06_Forecast.py", title="Forecast"),
+        st.Page("pages/04_Analytics.py", title="Analytics"),
+        st.Page("pages/05_Products.py", title="Products"),
+        st.Page("pages/06_Customers.py", title="Customers"),
+        st.Page("pages/07_Forecast.py", title="Forecast"),
     ],
     "DECISION SUPPORT": [
-        st.Page("pages/07_Business_Health.py", title="Business Health"),
-        st.Page("pages/08_Insights.py", title="Insights"),
-        st.Page("pages/09_Reports.py", title="Reports"),
+        st.Page("pages/08_Business_Health.py", title="Business Health"),
+        st.Page("pages/09_Insights.py", title="Insights"),
+        st.Page("pages/10_Reports.py", title="Reports"),
     ]
 })
 

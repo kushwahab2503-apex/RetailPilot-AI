@@ -30,6 +30,11 @@ if uploaded_file:
             with st.spinner("Running dataset validation pipeline..."):
                 val_result = validate_dataset(df)
                 
+                # Reset cleaning framework states completely for the new upload
+                for key in ["cleaned_df", "cleaning_config", "cleaning_summary", "cleaning_applied",
+                            "cleaned_validation_result"]:
+                    st.session_state.pop(key, None)
+                    
                 st.session_state["dataset_loaded"] = True
                 st.session_state["demo_mode"] = False
                 st.session_state["raw_df"] = df

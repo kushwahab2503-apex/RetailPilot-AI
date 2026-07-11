@@ -1,0 +1,6 @@
+OrderID,OrderDate,ProductID,ProductName,Category,Quantity,UnitPrice,CustomerID,UnitCost
+O1,2025-01-01,P1,Wireless Mouse,Accessories,10,25.0,C001,12.5
+O2,2025-01-02,P2,Mechanical Keyboard,Accessories,5,80.0,C002,40.0
+O3,2025-01-03,P3,USB-C Cable,Accessories,20,15.0,C003,6.0
+O4,2025-01-04,P1,Wireless Mouse,Accessories,8,25.0,C001,12.5
+O5,2025-01-05,P2,Mechanical Keyboard,Accessories,4,80.0,C004,40.0

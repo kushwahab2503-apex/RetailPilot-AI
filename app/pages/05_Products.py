@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+from app.components.theme import inject_global_css
 
 from app.components.layout import page_header, dataset_status
 from backend.analytics_resolver import resolve_analytics_dataset
@@ -24,57 +25,8 @@ st.set_page_config(page_title="RetailPilot AI - Products Intelligence", layout="
 dataset_status()
 page_header("Products Intelligence", "Analyze product-level portfolio statistics, sales performance, Pareto distribution, and pricing margins.")
 
-# Standard Dashboard CSS Inject for Premium Theme & Design aesthetics
-st.markdown("""
-<style>
-    /* Google Font Import */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    
-    html, body, [class*="css"] {
-        font-family: 'Inter', sans-serif;
-    }
-    
-    /* Card style layout mimicking state-of-the-art dashboards */
-    .metric-card {
-        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 12px;
-        padding: 24px;
-        text-align: left;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        transition: transform 0.2s ease, border-color 0.2s ease;
-    }
-    .metric-card:hover {
-        transform: translateY(-2px);
-        border-color: rgba(99, 102, 241, 0.4);
-    }
-    .metric-label {
-        font-size: 0.85rem;
-        font-weight: 500;
-        color: #9ca3af;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 8px;
-    }
-    .metric-value {
-        font-size: 1.85rem;
-        font-weight: 700;
-        color: #f3f4f6;
-        margin-bottom: 4px;
-    }
-    .metric-subtext {
-        font-size: 0.75rem;
-        color: #6b7280;
-    }
-    
-    /* Custom divider style */
-    .custom-divider {
-        height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-        margin: 24px 0;
-    }
-</style>
-""", unsafe_allow_html=True)
+# Inject shared light enterprise CSS
+inject_global_css()
 
 # Resolve dataset from session state
 df, source_name = resolve_analytics_dataset()
@@ -82,8 +34,8 @@ df, source_name = resolve_analytics_dataset()
 if df is None:
     st.warning("Please upload a dataset or validate/clean your data on the preceding pages to activate this view.")
     st.markdown("""
-        <div style='padding: 20px; border-radius: 8px; background-color: #111827; border: 1px solid rgba(255, 255, 255, 0.05); margin-top: 15px;'>
-            <h4 style='margin-top: 0;'>Quick start guide:</h4>
+        <div class="empty-state-box">
+            <h4>Quick start guide:</h4>
             <ol>
                 <li>Go to the <b>Upload Data</b> page in the left navigation sidebar.</li>
                 <li>Upload your raw transaction CSV and trigger validation.</li>

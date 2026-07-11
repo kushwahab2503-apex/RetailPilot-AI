@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from datetime import datetime
+from app.components.theme import inject_global_css
 
 from app.components.layout import page_header, dataset_status
 from backend.analytics_resolver import resolve_analytics_dataset
@@ -19,127 +20,12 @@ st.set_page_config(page_title="RetailPilot AI - Executive Business Reports", lay
 dataset_status()
 page_header("Executive Reports Center", "Stateless, deterministic executive summaries and structured audit documents.")
 
-# Inject Custom Elegant Styling
-st.markdown("""
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    
-    html, body, [class*="css"] {
-        font-family: 'Inter', sans-serif;
-    }
-    
-    .status-badge {
-        padding: 4px 10px;
-        border-radius: 4px;
-        font-weight: 600;
-        font-size: 0.78rem;
-        text-transform: uppercase;
-        display: inline-block;
-    }
-    
-    .status-strong {
-        background: rgba(16, 185, 129, 0.12);
-        color: #10b981;
-        border: 1px solid #10b981;
-    }
-    .status-stable {
-        background: rgba(59, 130, 246, 0.12);
-        color: #3b82f6;
-        border: 1px solid #3b82f6;
-    }
-    .status-watch {
-        background: rgba(245, 158, 11, 0.12);
-        color: #f59e0b;
-        border: 1px solid #f59e0b;
-    }
-    .status-risk {
-        background: rgba(239, 68, 68, 0.12);
-        color: #ef4444;
-        border: 1px solid #ef4444;
-    }
-    .status-insufficient {
-        background: rgba(156, 163, 175, 0.12);
-        color: #9ca3af;
-        border: 1px solid #9ca3af;
-    }
-    
-    .card-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-        gap: 16px;
-        margin: 15px 0;
-    }
-    
-    .report-card {
-        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-        border-radius: 10px;
-        padding: 16px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-        transition: transform 0.2s ease;
-    }
-    
-    .report-card:hover {
-        transform: translateY(-2px);
-    }
-    
-    .report-card-strong {
-        border: 1px solid rgba(16, 185, 129, 0.4);
-    }
-    .report-card-stable {
-        border: 1px solid rgba(59, 130, 246, 0.4);
-    }
-    .report-card-watch {
-        border: 1px solid rgba(245, 158, 11, 0.4);
-    }
-    .report-card-risk {
-        border: 1px solid rgba(239, 68, 68, 0.4);
-    }
-    .report-card-insufficient {
-        border: 1px solid rgba(156, 163, 175, 0.4);
-    }
-    
-    .card-label {
-        font-size: 0.78rem;
-        font-weight: 500;
-        color: #9ca3af;
-        text-transform: uppercase;
-        margin-bottom: 4px;
-    }
-    
-    .card-value {
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: #f3f4f6;
-        margin-bottom: 2px;
-    }
-    
-    .card-meta {
-        font-size: 0.72rem;
-        color: #6b7280;
-    }
-    
-    .brief-container {
-        background: #1e293b;
-        border-left: 5px solid #6366f1;
-        border-radius: 6px;
-        padding: 16px;
-        margin-bottom: 20px;
-    }
-    
-    .brief-title {
-        font-size: 1.15rem;
-        font-weight: 700;
-        color: #f8fafc;
-        margin-bottom: 6px;
-    }
-    
-    .brief-body {
-        font-size: 0.95rem;
-        color: #d1d5db;
-        line-height: 1.5;
-    }
-</style>
-""", unsafe_allow_html=True)
+# Inject shared light enterprise CSS
+inject_global_css()
+
+# Reports-specific CSS (status-strong/stable/watch/risk, report-card, brief-container,
+# card-grid, card-label/value/meta — all page-specific to the report card layout)
+
 
 
 # Fetch dataset from session resolver

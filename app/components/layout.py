@@ -14,9 +14,12 @@ def dataset_status():
     elif st.session_state.get("demo_mode"):
         st.sidebar.info("Demo Mode: Active")
     else:
-        st.sidebar.markdown("""
-        <div style='background-color: #111827; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 12px; margin-bottom: 1rem;'>
-            <span style='color: #9CA3AF; font-size: 0.9rem;'>No Dataset Loaded</span>
-        </div>
-        """, unsafe_allow_html=True)
+        st.sidebar.markdown(
+            "<div class='sidebar-status-box'>"
+            "<span style='color:#64748B;font-size:0.88rem;font-weight:600;'>"
+            "No Dataset Loaded"
+            "</span>"
+            "</div>",
+            unsafe_allow_html=True,
+        )
     st.sidebar.divider()

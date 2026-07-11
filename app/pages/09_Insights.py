@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from datetime import datetime
+from app.components.theme import inject_global_css
 
 from app.components.layout import page_header, dataset_status
 from backend.analytics_resolver import resolve_analytics_dataset
@@ -18,107 +19,16 @@ st.set_page_config(page_title="RetailPilot AI - Deterministic Insights", layout=
 dataset_status()
 page_header("Insights Intelligence", "Deterministic, evidence-backed strategic actions and analytical limitation audits.")
 
-# Standard CSS Inject for Premium Theme & Design aesthetics
-st.markdown("""
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    
-    html, body, [class*="css"] {
-        font-family: 'Inter', sans-serif;
-    }
-    
-    .insight-card {
-        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 16px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s ease, border-color 0.2s ease;
-    }
-    .insight-card:hover {
-        transform: translateY(-2px);
-        border-color: rgba(99, 102, 241, 0.4);
-    }
-    .badge {
-        display: inline-block;
-        padding: 4px 10px;
-        border-radius: 9999px;
-        font-size: 0.72rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-        margin-right: 8px;
-        margin-bottom: 8px;
-    }
-    .badge-positive {
-        background: rgba(16, 185, 129, 0.15);
-        color: #10b981;
-        border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-    .badge-watch {
-        background: rgba(245, 158, 11, 0.15);
-        color: #f59e0b;
-        border: 1px solid rgba(245, 158, 11, 0.3);
-    }
-    .badge-risk {
-        background: rgba(239, 68, 68, 0.15);
-        color: #ef4444;
-        border: 1px solid rgba(239, 68, 68, 0.3);
-    }
-    .badge-informational {
-        background: rgba(59, 130, 246, 0.15);
-        color: #3b82f6;
-        border: 1px solid rgba(59, 130, 246, 0.3);
-    }
-    .badge-domain {
-        background: rgba(255, 255, 255, 0.05);
-        color: #e2e8f0;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    .telemetry-box {
-        font-family: monospace;
-        font-size: 0.78rem;
-        background: rgba(0, 0, 0, 0.25);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        padding: 8px 12px;
-        border-radius: 6px;
-        color: #cbd5e1;
-        margin-top: 10px;
-    }
-    .action-box {
-        background: rgba(99, 102, 241, 0.08);
-        border-left: 4px solid #6366f1;
-        padding: 12px;
-        border-radius: 0 8px 8px 0;
-        margin-top: 12px;
-        font-size: 0.85rem;
-        color: #e2e8f0;
-    }
-    .custom-divider {
-        height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
-        margin: 24px 0;
-    }
-</style>
-""", unsafe_allow_html=True)
-
+# Inject shared light enterprise CSS
+inject_global_css()
 
 def render_summary_card(label, count, color):
     st.markdown(f"""
-        <div style="
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-top: 4px solid {color};
-            border-radius: 12px;
-            padding: 18px 12px;
-            text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        ">
-            <div style="font-size: 0.7rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">
+        <div class="report-card" style="border-top: 4px solid {color} !important; text-align: center;">
+            <div class="card-label">
                 {label}
             </div>
-            <div style="font-size: 1.8rem; font-weight: 700; color: #f3f4f6;">
+            <div class="card-value">
                 {count}
             </div>
         </div>
@@ -126,24 +36,24 @@ def render_summary_card(label, count, color):
 
 
 def render_insight_card(insight):
-    # Determine severity layout
+    # Determine severity layout — uses semantic light palette
     sev = insight["severity"]
     if sev == "Positive":
-        bg_color = "rgba(16, 185, 129, 0.03)"
-        border_color = "rgba(16, 185, 129, 0.15)"
-        badge_cls = "badge-positive"
+        bg_color    = "#F0FDF4"
+        border_color = "#86EFAC"
+        badge_cls   = "badge-positive"
     elif sev == "Watch":
-        bg_color = "rgba(245, 158, 11, 0.03)"
-        border_color = "rgba(245, 158, 11, 0.15)"
-        badge_cls = "badge-watch"
+        bg_color    = "#FEFCE8"
+        border_color = "#FDE68A"
+        badge_cls   = "badge-watch"
     elif sev == "Risk":
-        bg_color = "rgba(239, 68, 68, 0.03)"
-        border_color = "rgba(239, 68, 68, 0.15)"
-        badge_cls = "badge-risk"
+        bg_color    = "#FFF5F5"
+        border_color = "#FECACA"
+        badge_cls   = "badge-risk"
     else:
-        bg_color = "rgba(59, 130, 246, 0.03)"
-        border_color = "rgba(59, 130, 246, 0.15)"
-        badge_cls = "badge-informational"
+        bg_color    = "#F0F7FF"
+        border_color = "#BFDBFE"
+        badge_cls   = "badge-informational"
 
     evidence_lst = "".join([f"<li>{ev}</li>" for ev in insight.get("evidence", [])])
     val_disp = f"{insight['metric_value']:.2f}" if isinstance(insight.get("metric_value"), float) else str(insight.get("metric_value", "None"))
@@ -157,7 +67,7 @@ def render_insight_card(insight):
     st.markdown(f"""
         <div class="insight-card" style="background: {bg_color}; border-color: {border_color};">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
-                <h4 style="margin: 0 0 8px 0; color: #f8fafc; font-size: 1.05rem; font-weight: 600; border: none; padding: 0;">
+                <h4 style="margin: 0 0 8px 0; color: #172033; font-size: 1.05rem; font-weight: 600; border: none; padding: 0;">
                     {insight['title']}
                 </h4>
                 <div>
@@ -165,10 +75,10 @@ def render_insight_card(insight):
                     <span class="badge {badge_cls}">{insight['severity']} (Priority {insight['priority']})</span>
                 </div>
             </div>
-            <p style="margin: 4px 0 12px 0; font-size: 0.88rem; color: #cbd5e1; font-weight: 500;">
+            <p style="margin: 4px 0 12px 0; font-size: 0.88rem; color: #475569; font-weight: 500;">
                 {insight['summary']}
             </p>
-            <div style="margin-left: 16px; font-size: 0.82rem; color: #94a3b8; margin-bottom: 12px;">
+            <div style="margin-left: 16px; font-size: 0.82rem; color: #64748B; margin-bottom: 12px;">
                 <ul style="margin: 0; padding-left: 0;">
                     {evidence_lst}
                 </ul>

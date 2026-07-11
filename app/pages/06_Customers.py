@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from datetime import datetime
+from app.components.theme import inject_global_css
 
 from app.components.layout import page_header, dataset_status
 from backend.analytics_resolver import resolve_analytics_dataset
@@ -26,56 +27,8 @@ st.set_page_config(page_title="RetailPilot AI - Customers Intelligence", layout=
 dataset_status()
 page_header("Customers Intelligence", "Customer behavior, value loyalty patterns, RFM segmentation, and cohort retention profiles.")
 
-# Custom CSS styling for premium look and feel
-st.markdown("""
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    
-    html, body, [class*="css"] {
-        font-family: 'Inter', sans-serif;
-    }
-    
-    /* Premium Metric Card */
-    .metric-card {
-        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 12px;
-        padding: 20px;
-        text-align: left;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        transition: transform 0.2s ease, border-color 0.2s ease;
-    }
-    .metric-card:hover {
-        transform: translateY(-2px);
-        border-color: rgba(99, 102, 241, 0.4);
-    }
-    .metric-label {
-        font-size: 0.8rem;
-        font-weight: 500;
-        color: #9ca3af;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 6px;
-    }
-    .metric-value {
-        font-size: 1.65rem;
-        font-weight: 700;
-        color: #f3f4f6;
-        margin-bottom: 2px;
-    }
-    .metric-subtext {
-        font-size: 0.7rem;
-        color: #6b7280;
-    }
-    
-    .gradient-text {
-        background: linear-gradient(95deg, #6366f1, #a855f7, #ec4899);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 700;
-    }
-</style>
-""", unsafe_allow_html=True)
+# Inject shared light enterprise CSS
+inject_global_css()
 
 # Resolve dataset from session state
 df, source_name = resolve_analytics_dataset()
@@ -83,8 +36,8 @@ df, source_name = resolve_analytics_dataset()
 if df is None:
     st.warning("Please upload a dataset or validate/clean your data on the preceding pages to activate this view.")
     st.markdown("""
-        <div style='padding: 20px; border-radius: 8px; background-color: #111827; border: 1px solid rgba(255, 255, 255, 0.05); margin-top: 15px;'>
-            <h4 style='margin-top: 0;'>Quick start guide:</h4>
+        <div class="empty-state-box">
+            <h4>Quick start guide:</h4>
             <ol>
                 <li>Go to the <b>Upload Data</b> page in the left navigation sidebar.</li>
                 <li>Upload your raw transaction CSV and trigger validation.</li>
@@ -351,8 +304,8 @@ else:
                 c1, c2 = st.columns([1, 2])
                 with c1:
                     st.markdown(f"""
-                    <div style="background-color:#111827; padding: 20px; border-radius:10px; border:1px solid rgba(255,255,255,0.05); margin-top:20px;">
-                        <h4 style="margin-top:0;">Concentration Diagnostics</h4>
+                    <div class="empty-state-box" style="margin-top:20px;">
+                        <h4>Concentration Diagnostics</h4>
                         <p><strong>Top 80% contributors count:</strong> {concent_meta["contributors_count"]} customers</p>
                         <p><strong>Active customer footprint:</strong> {concent_meta["total_active_customers"]} customers</p>
                         <p><strong>Pareto Ratio:</strong> {concent_meta["contributors_ratio_pct"]:.2f}% of buyers account for 80% of sales</p>

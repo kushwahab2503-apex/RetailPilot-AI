@@ -37,3 +37,4 @@ reports/*.pdf
 # Temporary files
 *.tmp
 *.log
+data/retailpilot_big_dirty_data.csv
